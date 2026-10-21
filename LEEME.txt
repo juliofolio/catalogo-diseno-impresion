@@ -1,0 +1,6 @@
+CATÁLOGO — PRIMER DISEÑO ACTUALIZADO
+
+Abre index.html en Acode (vista previa). Conserva juntas las carpetas css, js y assets.
+
+Las imágenes son referenciales. El formulario abre WhatsApp con la consulta preparada; el usuario debe pulsar Enviar.
+Número configurado: +34 614 94 54 55
