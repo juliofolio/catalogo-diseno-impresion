@@ -43,9 +43,45 @@ services.forEach(service => {
   option.textContent = service.name;
   select.appendChild(option);
 });
+function generarCodigoSolicitud() {
+  const fecha = new Date();
+
+  const anio = fecha.getFullYear();
+  const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+  const dia = String(fecha.getDate()).padStart(2, '0');
+
+  const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let aleatorio = '';
+
+  const numeros = new Uint32Array(4);
+  crypto.getRandomValues(numeros);
+
+  for (const numero of numeros) {
+    aleatorio += caracteres[numero % caracteres.length];
+  }
+
+  return `SOL-${anio}${mes}${dia}-${aleatorio}`;
+}
+
+
 document.getElementById('form').addEventListener('submit', event => {
   event.preventDefault();
+
   const value = id => document.getElementById(id).value.trim();
-  const message = `Hola, quisiera solicitar un presupuesto de diseño e impresión.\n\nNombre: ${value('nombre')}\nProducto: ${value('producto')}\nCantidad: ${value('cantidad') || 'Por definir'}\nMedidas: ${value('medidas') || 'Por definir'}\nDiseño: ${value('diseno')}\nDetalles: ${value('detalle') || 'Sin detalles adicionales'}`;
-  window.location.href = 'https://wa.me/34614945455?text=' + encodeURIComponent(message);
+
+  const codigo = generarCodigoSolicitud();
+
+  const message = `Hola, quisiera solicitar un presupuesto de diseño e impresión.
+
+Código de solicitud: ${codigo}
+
+Nombre: ${value('nombre')}
+Producto: ${value('producto')}
+Cantidad: ${value('cantidad') || 'Por definir'}
+Medidas: ${value('medidas') || 'Por definir'}
+Diseño: ${value('diseno')}
+Detalles: ${value('detalle') || 'Sin detalles adicionales'}`;
+
+  window.location.href =
+    'https://wa.me/34614945455?text=' + encodeURIComponent(message);
 });
